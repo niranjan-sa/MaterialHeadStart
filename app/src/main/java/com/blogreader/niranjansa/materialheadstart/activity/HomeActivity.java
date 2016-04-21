@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.blogreader.niranjansa.materialheadstart.R;
+import com.firebase.client.Firebase;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -26,6 +27,11 @@ public class HomeActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        Firebase.setAndroidContext(this);
+    }
+
+    public void authenticate(View view) {
+
     }
 
 }

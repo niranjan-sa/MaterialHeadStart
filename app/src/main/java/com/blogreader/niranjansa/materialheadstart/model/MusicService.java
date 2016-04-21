@@ -104,6 +104,7 @@ public class MusicService extends Service implements
         songPosn=songIndex;
     }
 
+    //This method has to be improved later
     public void setSongByName(String name){
         for(int i=0; i<songs.size(); i++) {
             Song tmp=songs.get(i);
