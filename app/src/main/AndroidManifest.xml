@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.blogreader.niranjansa.materialheadstart" >
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/MyMaterialTheme" >
+        <activity
+            android:name=".activity.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service android:name=".model.MusicService" />
+
+        <activity
+            android:name=".activity.HomeActivity"
+            android:label="@string/title_activity_home"
+            android:theme="@style/MyMaterialTheme" />
+        <activity
+            android:name=".activity.SongPlayer"
+            android:label="Player"
+            android:theme="@style/MyMaterialTheme" />
+        <activity
+            android:name=".activity.AlbumSongListActivity"
+            android:label="@string/title_activity_album_song_list"
+            android:parentActivityName=".activity.MainActivity"
+            android:theme="@style/MyMaterialTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.blogreader.niranjansa.materialheadstart.activity.MainActivity" />
+        </activity>
+        <activity android:name=".activity.ArtistSongListActivity" >
+        </activity>
+    </application>
+
+</manifest>

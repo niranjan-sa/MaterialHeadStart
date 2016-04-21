@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:onClick="playlistPicked"
+    android:orientation="vertical"
+    android:padding="5dp"
+
+    >
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/playlisticon"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:src="@mipmap/playlist_icon" />
+
+    <TextView
+        android:id="@+id/play_list_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorTitle"
+        android:paddingLeft="4dp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/playlisticon"
+        android:layout_toEndOf="@+id/playlisticon" />
+
+
+</RelativeLayout>
