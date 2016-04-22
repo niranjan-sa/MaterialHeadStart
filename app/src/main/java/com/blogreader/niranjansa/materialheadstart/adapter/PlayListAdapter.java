@@ -54,7 +54,7 @@ public class PlayListAdapter extends BaseAdapter {
         playListView.setText(currPL.getTitle());
 
         //set position as tag
-        pLLay.setTag(position);
+        pLLay.setTag(currPL.getId());
         return pLLay;
     }
 }

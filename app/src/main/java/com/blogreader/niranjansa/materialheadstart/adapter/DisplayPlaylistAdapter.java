@@ -1,19 +1,16 @@
 package com.blogreader.niranjansa.materialheadstart.adapter;
 
-import android.content.ContentUris;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 
 import com.blogreader.niranjansa.materialheadstart.R;
 import com.blogreader.niranjansa.materialheadstart.activity.AlbumArt;
@@ -22,20 +19,17 @@ import com.blogreader.niranjansa.materialheadstart.model.Song;
 import java.util.ArrayList;
 
 /**
- * Created by niranjansa on 18/3/16.
+ * Created by vintej on 21/4/16.
  */
-public class SongAdapter extends BaseAdapter {
+public class DisplayPlaylistAdapter extends BaseAdapter {
     private ArrayList<Song> songs;
     private LayoutInflater songInf;
     Context cc;
-
-    public SongAdapter(Context c, ArrayList<Song> theSongs){
+    public DisplayPlaylistAdapter(Context c, ArrayList<Song> theSongs){
         songs=theSongs;
         songInf=LayoutInflater.from(c);
         cc=c;
     }
-
-
 
     @Override
     public int getCount() {
@@ -54,7 +48,6 @@ public class SongAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        //map to song layout
         RelativeLayout songLay = (RelativeLayout)songInf.inflate
                 (R.layout.song, parent, false);
         //get title and artist views
@@ -66,15 +59,17 @@ public class SongAdapter extends BaseAdapter {
         songView.setText(currSong.getTitle());
         songView.setSelected(true);
         artistView.setText(currSong.getArtist());
-
-        //added album art
+        //add album art
         ImageView albumImageView=(ImageView)songLay.findViewById(R.id.album_art);
         AlbumArt albumArt=new AlbumArt();
         Bitmap albumImage=albumArt.getAlbumArt(currSong.getAlbumId(), cc);
         if(albumImage!=null)
-        albumImageView.setImageBitmap(albumImage);
+            albumImageView.setImageBitmap(albumImage);
+
+
         //set position as tag
         songLay.setTag(position);
+        Log.i("cc", currSong.getTitle());
         return songLay;
     }
-   }
+}

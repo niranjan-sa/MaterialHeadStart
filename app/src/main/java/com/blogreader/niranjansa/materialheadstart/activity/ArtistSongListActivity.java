@@ -62,9 +62,9 @@ public class ArtistSongListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_artist_song_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        String artistTitle=getIntent().getStringExtra("artistTitle");  ///getArtistTitle(a);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("" + a);
+        getSupportActionBar().setTitle("" + artistTitle);
         songView = (ListView)findViewById(R.id.artistSongListView);
         ArtistSongAdapter songAdt = new ArtistSongAdapter(this,artistSongList);
        songView.setAdapter(songAdt);
@@ -81,6 +81,7 @@ public class ArtistSongListActivity extends AppCompatActivity {
         }
     }
 
+
     public void getArtistSongs(int artistId)
     {
         String selection = "is_music != 0";
@@ -93,7 +94,10 @@ public class ArtistSongListActivity extends AppCompatActivity {
                 MediaStore.Audio.Media._ID,
                 MediaStore.Audio.Media.TITLE,
                 MediaStore.Audio.Media.ARTIST,
-                MediaStore.Audio.Media.ARTIST_ID
+                MediaStore.Audio.Media.ARTIST_ID,
+                MediaStore.Audio.Media.ALBUM_ID,
+                MediaStore.Audio.Media.ALBUM
+
         };
         // final String sortOrder = MediaStore.Audio.AudioColumns.TITLE + " COLLATE LOCALIZED ASC";
         int songs=0,i=0;
@@ -109,6 +113,10 @@ public class ArtistSongListActivity extends AppCompatActivity {
                         (android.provider.MediaStore.Audio.Media._ID);
                 int artistColumn = musicCursor.getColumnIndex
                         (MediaStore.Audio.Media.ARTIST);
+                int albumColumn = musicCursor.getColumnIndex
+                        (MediaStore.Audio.Media.ALBUM);
+                int albumIdColumn = musicCursor.getColumnIndex
+                        (MediaStore.Audio.Media.ALBUM_ID);
 
 
                 //retriving the flags to avoid showing the ring tones and other system files
@@ -121,8 +129,10 @@ public class ArtistSongListActivity extends AppCompatActivity {
 
                     String thisTitle = musicCursor.getString(titleColumn);
                     String thisArtist = musicCursor.getString(artistColumn);
+                    String album=musicCursor.getString(albumColumn);
+                    long albumId=musicCursor.getLong(albumIdColumn);
 
-                    artistSongList.add(new Song(thisId, thisTitle, thisArtist));
+                    artistSongList.add(new Song(thisId, thisTitle, thisArtist,albumId,album));
                     songs++;
                     i++;
 

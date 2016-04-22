@@ -57,14 +57,15 @@ public class AlbumSongListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         int a=getIntent().getIntExtra("id",0);
+
         albumSongList=new ArrayList<Song>();
         getAlbumSongs(a);
         setContentView(R.layout.activity_album_song_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        String albumTitle= getIntent().getStringExtra("albumTitle");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("" + a);
+        getSupportActionBar().setTitle("" + albumTitle);
         songView = (ListView)findViewById(R.id.albumSongListView);
         SongAdapter songAdt = new SongAdapter(this,albumSongList);
         songView.setAdapter(songAdt);
@@ -80,6 +81,39 @@ public class AlbumSongListActivity extends AppCompatActivity {
             startService(playIntent);
         }
     }
+    public String getAlbumTitle(int albumId) {
+        String thisTitle="";
+        String selection = "_id = " + albumId;
+        String[] projection = {
+                MediaStore.Audio.Albums._ID,
+                MediaStore.Audio.Albums.ALBUM
+        };
+        Cursor musicCursor = null;
+        try {
+            Uri uri = android.provider.MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
+            musicCursor = getContentResolver().query(uri, projection, selection, null, null);
+            if (musicCursor != null && musicCursor.moveToFirst()) {
+
+                int titleColumn = musicCursor.getColumnIndex
+                        (MediaStore.Audio.Albums.ALBUM);
+                int idColumn = musicCursor.getColumnIndex
+                        (MediaStore.Audio.Albums._ID);
+
+                do {
+
+                    long thisId = musicCursor.getLong(idColumn);
+                    if (thisId == albumId) {
+                        thisTitle = musicCursor.getString(titleColumn);
+                        break;
+                    }
+                }
+                while (musicCursor.moveToNext());
+            }
+        } catch (Exception e) {
+        }
+        return thisTitle;
+    }
+
 
     public void getAlbumSongs(int albumId)
     {
@@ -93,8 +127,11 @@ public class AlbumSongListActivity extends AppCompatActivity {
                 MediaStore.Audio.Media._ID,
                 MediaStore.Audio.Media.TITLE,
                 MediaStore.Audio.Media.ARTIST,
-                MediaStore.Audio.Media.ALBUM_ID
+                MediaStore.Audio.Media.ALBUM_ID,
+                MediaStore.Audio.Media.ALBUM
+
         };
+
        // final String sortOrder = MediaStore.Audio.AudioColumns.TITLE + " COLLATE LOCALIZED ASC";
         int songs=0,i=0;
         Cursor musicCursor = null;
@@ -109,6 +146,10 @@ public class AlbumSongListActivity extends AppCompatActivity {
                         (android.provider.MediaStore.Audio.Media._ID);
                 int artistColumn = musicCursor.getColumnIndex
                         (MediaStore.Audio.Media.ARTIST);
+                int albumColumn = musicCursor.getColumnIndex
+                        (MediaStore.Audio.Media.ALBUM);
+
+
 
 
                 //retriving the flags to avoid showing the ring tones and other system files
@@ -121,8 +162,10 @@ public class AlbumSongListActivity extends AppCompatActivity {
 
                     String thisTitle = musicCursor.getString(titleColumn);
                     String thisArtist = musicCursor.getString(artistColumn);
+                    String album=musicCursor.getString(albumColumn);
 
-                    albumSongList.add(new Song(thisId, thisTitle, thisArtist));
+
+                    albumSongList.add(new Song(thisId, thisTitle, thisArtist,albumId,album));
                     songs++;
                     i++;
 

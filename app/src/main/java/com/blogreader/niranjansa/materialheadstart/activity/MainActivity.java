@@ -28,6 +28,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blogreader.niranjansa.materialheadstart.R;
@@ -158,7 +159,7 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
         * */
         //Here I go
        // songView = (ListView)findViewById(R.id.song_list);
-        //only querying
+        //only queryinq
     }
     @Override
     protected void onStart() {
@@ -168,6 +169,7 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
             bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
             startService(playIntent);
         }
+
     }
 
     @Override
@@ -265,18 +267,20 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
                         (android.provider.MediaStore.Audio.Media._ID);
                 int artistColumn = musicCursor.getColumnIndex
                         (android.provider.MediaStore.Audio.Media.ARTIST);
-                /*Added afterwards*/
-                int albumColumn=musicCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM);
-                int albumId=musicCursor.getColumnIndex(MediaStore.Audio.Media.YEAR);
+                int albumColumn = musicCursor.getColumnIndex
+                        (MediaStore.Audio.Media.ALBUM);
+                int albumIdColumn = musicCursor.getColumnIndex
+                        (MediaStore.Audio.Media.ALBUM_ID);
 
-                /**/
 
                 //add songs to list
                 do {
                     long thisId = musicCursor.getLong(idColumn);
                     String thisTitle = musicCursor.getString(titleColumn);
                     String thisArtist = musicCursor.getString(artistColumn);
-                    songList.add(new Song(thisId, thisTitle, thisArtist));
+                    String album=musicCursor.getString(albumColumn);
+                    long albumId=musicCursor.getLong(albumIdColumn);
+                    songList.add(new Song(thisId, thisTitle, thisArtist,albumId,album));
                     songs++;
                 }
                 while (musicCursor.moveToNext());
@@ -299,6 +303,12 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
                     (android.provider.MediaStore.Audio.Media._ID);
             int artistColumn = musicCursor.getColumnIndex
                     (MediaStore.Audio.Media.ARTIST);
+            int albumColumn = musicCursor.getColumnIndex
+                    (MediaStore.Audio.Media.ALBUM);
+            int albumIdColumn = musicCursor.getColumnIndex
+                    (MediaStore.Audio.Media.ALBUM_ID);
+
+
             int dataColumn=musicCursor.getColumnIndex
                     (MediaStore.Audio.Media.DATA);
 
@@ -313,8 +323,10 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
 
                     String thisTitle = musicCursor.getString(titleColumn);
                     String thisArtist = musicCursor.getString(artistColumn);
+                    String album=musicCursor.getString(albumColumn);
+                    long albumId=musicCursor.getLong(albumIdColumn);
 
-                    songList.add(new Song(thisId, thisTitle, thisArtist));
+                    songList.add(new Song(thisId, thisTitle, thisArtist,albumId,album));
                     songs++;
                     i++;
 
@@ -419,7 +431,7 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
             startActivity(intent);
     }
     public void albumPicked(View view){
-        Intent intent=new Intent(this, AlbumSongListActivity.class);
+        Intent intent= new Intent(this, AlbumSongListActivity.class);
 
         int a=0;
         a=Integer.parseInt(view.getTag().toString());
@@ -427,13 +439,15 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
 
         }
         catch (Exception e){};;
-
+        TextView t= (TextView) view.findViewById(R.id.album_name);
         intent.putExtra("id",a);
+        intent.putExtra("albumTitle", "" + t.getText());
+
         startActivity(intent);
     }
     public void artistPicked(View view){
         Intent intent=new Intent(this, ArtistSongListActivity.class);
-
+        TextView t = (TextView) view.findViewById(R.id.artist_name);
         int a=0;
         a=Integer.parseInt(view.getTag().toString());
         try{
@@ -442,10 +456,20 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
         catch (Exception e){};;
 
         intent.putExtra("id",a);
+        intent.putExtra("artistTitle", "" + t.getText());
         startActivity(intent);
     }
-
-    public void start() {
+    public void displayPlaylist(View view){
+        Intent intent=new Intent(this, DisplayPlaylist.class);
+        int a=0;
+        a=Integer.parseInt(view.getTag().toString());
+        Log.i("playlist",""+a);
+        intent.putExtra("id",a);
+        TextView t = (TextView) view.findViewById(R.id.play_list_title);
+        intent.putExtra("playlistTitle", "" + t.getText());
+        startActivity(intent);
+    }
+   public void start() {
         musicSrv.go();
     }
 

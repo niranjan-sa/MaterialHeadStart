@@ -1,14 +1,17 @@
 package com.blogreader.niranjansa.materialheadstart.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.blogreader.niranjansa.materialheadstart.R;
+import com.blogreader.niranjansa.materialheadstart.activity.AlbumArt;
 import com.blogreader.niranjansa.materialheadstart.model.Album;
 import com.blogreader.niranjansa.materialheadstart.model.Artist;
 
@@ -20,10 +23,12 @@ import java.util.ArrayList;
 public class AlbumAdapter extends BaseAdapter {
     private ArrayList<Album> albumList;
     private LayoutInflater albumListInflator;
+    Context cc;
 
     public AlbumAdapter(Context c, ArrayList<Album> List){
         albumList=List;;
         albumListInflator=LayoutInflater.from(c);
+        cc=c;
     }
     @Override
     public int getCount() {
@@ -54,6 +59,13 @@ public class AlbumAdapter extends BaseAdapter {
         album_nameTextView.setText(currentAlbum.getTitle());
         album_nameTextView.setSelected(true);
         int count=currentAlbum.getNoOfSongs();
+        // added album art
+        ImageView albumImageView=(ImageView)albumLayout.findViewById(R.id.album_image);
+        AlbumArt albumArt=new AlbumArt();
+        Bitmap albumImage=albumArt.getAlbumArt(currentAlbum.getId(), cc);
+        if(albumImage!=null)
+            albumImageView.setImageBitmap(albumImage);
+
         if(count==1)
             countTextView.setText(""+count+" song");
         else
