@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -73,6 +74,9 @@ public class SongAdapter extends BaseAdapter {
         Bitmap albumImage=albumArt.getAlbumArt(currSong.getAlbumId(), cc);
         if(albumImage!=null)
         albumImageView.setImageBitmap(albumImage);
+        //set position to option button
+        ImageButton ib=(ImageButton)songLay.findViewById(R.id.optionButton);
+        ib.setTag(position);
         //set position as tag
         songLay.setTag(position);
         return songLay;

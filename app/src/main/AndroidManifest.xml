@@ -25,7 +25,7 @@
         <service android:name=".model.MusicService" />
 
         <activity
-            android:name=".activity.HomeActivity"
+            android:name=".activity.LoginActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/MyMaterialTheme" />
         <activity
@@ -41,7 +41,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.blogreader.niranjansa.materialheadstart.activity.MainActivity" />
         </activity>
-        <activity android:name=".activity.ArtistSongListActivity"></activity>
+        <activity android:name=".activity.ArtistSongListActivity" />
         <activity
             android:name=".activity.DisplayPlaylist"
             android:label="@string/title_activity_display_playlist"
@@ -51,6 +51,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.blogreader.niranjansa.materialheadstart.activity.MainActivity" />
         </activity>
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:label="@string/title_activity_register"
+            android:parentActivityName=".activity.MainActivity"
+            android:theme="@style/MyMaterialTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.blogreader.niranjansa.materialheadstart.activity.MainActivity" />
+        </activity>
+        <activity android:name=".activity.Settings" />
+        <activity android:name=".activity.UserInfoActivity"></activity>
     </application>
 
 </manifest>
