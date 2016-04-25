@@ -81,40 +81,7 @@ public class AlbumSongListActivity extends AppCompatActivity {
             startService(playIntent);
         }
     }
-    public String getAlbumTitle(int albumId) {
-        String thisTitle="";
-        String selection = "_id = " + albumId;
-        String[] projection = {
-                MediaStore.Audio.Albums._ID,
-                MediaStore.Audio.Albums.ALBUM
-        };
-        Cursor musicCursor = null;
-        try {
-            Uri uri = android.provider.MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
-            musicCursor = getContentResolver().query(uri, projection, selection, null, null);
-            if (musicCursor != null && musicCursor.moveToFirst()) {
-
-                int titleColumn = musicCursor.getColumnIndex
-                        (MediaStore.Audio.Albums.ALBUM);
-                int idColumn = musicCursor.getColumnIndex
-                        (MediaStore.Audio.Albums._ID);
-
-                do {
-
-                    long thisId = musicCursor.getLong(idColumn);
-                    if (thisId == albumId) {
-                        thisTitle = musicCursor.getString(titleColumn);
-                        break;
-                    }
-                }
-                while (musicCursor.moveToNext());
-            }
-        } catch (Exception e) {
-        }
-        return thisTitle;
-    }
-
-
+   
     public void getAlbumSongs(int albumId)
     {
         String selection = "is_music != 0";

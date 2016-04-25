@@ -27,7 +27,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +37,8 @@ import com.blogreader.niranjansa.materialheadstart.R;
 import com.blogreader.niranjansa.materialheadstart.model.MusicService;
 import com.blogreader.niranjansa.materialheadstart.model.PlayList;
 import com.blogreader.niranjansa.materialheadstart.model.Song;
+import com.firebase.client.AuthData;
+import com.firebase.client.Firebase;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -150,8 +154,16 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);
         drawerFragment.setDrawerListener(this);
 
+        //Firebase
+
+        Firebase.setAndroidContext(getBaseContext());
+       FirebaseConnection.setPath(getResources().getString(R.string.firebaselink));
+        Firebase firebase=new Firebase(FirebaseConnection.getPath());
+        AuthData authData=firebase.getAuth();
+        FirebaseConnection.setAuthData(authData);
+
         // display the first navigation drawer view on app launch
-        displayView(1);
+        //displayView(1);
 
         /*
             UI setup code ends here
@@ -211,17 +223,48 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+           Intent intent=new Intent(this,Settings.class);
+            startActivity(intent);
         }
 
         if(id == R.id.action_search){
             Toast.makeText(getApplicationContext(), "Search action is selected!", Toast.LENGTH_SHORT).show();
             return true;
         }
+        if(id==R.id.sync)
+        {
+            syncWithFirebase();
+        }
 
         return super.onOptionsItemSelected(item);
     }
+    public void syncWithFirebase()
+    {
+        AuthData a= FirebaseConnection.getAuthData();
+        if(a==null || a.getAuth()==null)
+        {
+            Toast.makeText(this,"Please login",Toast.LENGTH_LONG).show();
+            return;
+        }
+        else
+        {
+            User user=FirebaseConnection.getUser();
+            if(user==null)
+            {
+                Toast.makeText(this,"Please login",Toast.LENGTH_LONG).show();
+                return;
+            }
 
+            Firebase firebase=new Firebase(FirebaseConnection.getPath());
+            String s=user.getEmail();
+            s= s.substring(0,s.indexOf("."));
+            Firebase ref=firebase.child("/Userdata/"+s+"/songs");
+            ref.setValue(songList);
+            //ref.setValue();
+
+
+        }
+    }
     //Listener for the drawer events start activity directly
     @Override
     public void onDrawerItemSelected(View view, int position) {
@@ -387,20 +430,20 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
 
     private void displayView(int position) {
         Fragment fragment = null;
+        Intent intent=null;
         String title = getString(R.string.app_name);
         switch (position) {
             case 0:
-                Intent intent =new Intent(this, HomeActivity.class);
+                 intent =new Intent(this, RegisterActivity.class);
                 startActivity(intent);
                 break;
                 /*fragment = new HomeFragment();
                 title = getString(R.string.title_home);
+                break;*/
+            case 1: intent =new Intent(this, LoginActivity.class);
+                startActivity(intent);
                 break;
-            /*case 1:
-                fragment = new FriendsFragment();
-                title = getString(R.string.title_friends);
-                break;
-            case 2:
+            /*case 2:
                 fragment = new MessagesFragment();
                 title = getString(R.string.title_messages);
                 break;*/
@@ -552,5 +595,57 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
         }
         //controller.show(0);
     }
+    //added popupmenu to three dot button
+    public  void popOptionMenu(View view)
+    {
+        final ImageButton ib=(ImageButton)view.findViewById(R.id.optionButton);
+        PopupMenu popup=new PopupMenu(MainActivity.this,ib);
+        popup.getMenuInflater().inflate(R.menu.popup_menu,popup.getMenu());
+        Toast.makeText(this, "" + ib.getTag(), Toast.LENGTH_LONG).show();
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                //    Toast.makeText(MainActivity.this, "You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
+                if (item.getItemId() == R.id.one) {
+                    addToExistingPlaylist((int) ib.getTag());
+                } else if (item.getItemId() == R.id.two) {
+                    Toast.makeText(MainActivity.this, "You Clicked : two", Toast.LENGTH_SHORT).show();
 
+                }
+                return true;
+            }
+        });
+        popup.show();
+
+    }
+
+    public void openUserInfoActivity(View view)
+    {
+
+        if(FirebaseConnection.getAuthData()!=null &&FirebaseConnection.getAuthData().getAuth()!=null &&FirebaseConnection.getUser()!=null)
+        {
+            Intent intent=new Intent(this,UserInfoActivity.class);
+            startActivity(intent);
+
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(), "Please login", Toast.LENGTH_SHORT).show();
+            return;
+
+        }
+
+
+    }
+   public void addToExistingPlaylist(int position)
+   {
+      Song song=(Song)songList.get(position);
+       song.getTitle();
+   }
+
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        //When BACK BUTTON is pressed, the activity on the stack is restarted
+        //Do what you want on the refresh procedure here
+    }
 }
