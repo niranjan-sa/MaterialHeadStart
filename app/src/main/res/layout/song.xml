@@ -32,7 +32,6 @@
         android:textColor="@android:color/black"
         android:layout_alignParentTop="true"
         android:paddingLeft="4dp"
-        android:layout_toLeftOf="@+id/optionButton"
         android:layout_alignLeft="@+id/song_artist"
         android:layout_alignStart="@+id/song_artist" />
 
@@ -44,21 +43,8 @@
         android:textSize="18sp"
         android:textColor="@android:color/black"
         android:paddingLeft="4dp"
-        android:layout_toLeftOf="@+id/optionButton"
         android:layout_below="@+id/song_title"
         android:layout_toRightOf="@+id/album_art"
         />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:id="@+id/optionButton"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignBottom="@+id/album_art"
-        android:src="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha"
-        android:onClick="popOptionMenu"
-        android:layout_alignParentTop="true"
-        android:background="#00ffffff" />
 
 </RelativeLayout>

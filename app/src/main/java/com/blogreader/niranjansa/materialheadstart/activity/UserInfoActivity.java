@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blogreader.niranjansa.materialheadstart.R;
+import com.blogreader.niranjansa.materialheadstart.model.User;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
@@ -58,6 +59,7 @@ public class UserInfoActivity extends AppCompatActivity {
                 message.setText("Successfully Changed password.");
 
             }
+
             @Override
             public void onError(FirebaseError firebaseError) {
                 r.setVisibility(View.GONE);
@@ -67,5 +69,20 @@ public class UserInfoActivity extends AppCompatActivity {
             }
         });
 
+    }
+    public void resetPassword(View view)
+    {
+        final TextView message=(TextView)findViewById(R.id.messageU);
+        Firebase firebase=new Firebase(FirebaseConnection.getPath());
+        firebase.resetPassword(user.getEmail(), new Firebase.ResultHandler() {
+            @Override
+            public void onSuccess() {
+                message.setText("Temporary password is sent on your email");
+            }
+            @Override
+            public void onError(FirebaseError firebaseError) {
+                message.setText("Couldn't reset password. please try again");
+            }
+        });
     }
 }

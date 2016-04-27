@@ -61,7 +61,25 @@
                 android:value="com.blogreader.niranjansa.materialheadstart.activity.MainActivity" />
         </activity>
         <activity android:name=".activity.Settings" />
-        <activity android:name=".activity.UserInfoActivity"></activity>
+        <activity android:name=".activity.UserInfoActivity" />
+        <activity
+            android:name=".activity.SongSuggestion"
+            android:label="@string/title_activity_song_suggestion"
+            android:parentActivityName=".activity.MainActivity"
+            android:theme="@style/MyMaterialTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.blogreader.niranjansa.materialheadstart.activity.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activity.DisplaySongSuggestion"
+            android:label="@string/title_activity_display_song_suggestion"
+            android:parentActivityName=".activity.MainActivity"
+            android:theme="@style/MyMaterialTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.blogreader.niranjansa.materialheadstart.activity.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

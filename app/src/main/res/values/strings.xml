@@ -26,4 +26,6 @@
     <string name="title_activity_display_playlist">DisplayPlaylist</string>
     <string name="title_activity_register">Register</string>
     <string name="firebaselink">https://shining-torch-8290.firebaseio.com</string>
+    <string name="title_activity_song_suggestion">SongSuggestion</string>
+    <string name="title_activity_display_song_suggestion">DisplaySongSuggestion</string>
 </resources>

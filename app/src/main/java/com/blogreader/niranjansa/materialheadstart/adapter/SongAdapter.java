@@ -75,8 +75,8 @@ public class SongAdapter extends BaseAdapter {
         if(albumImage!=null)
         albumImageView.setImageBitmap(albumImage);
         //set position to option button
-        ImageButton ib=(ImageButton)songLay.findViewById(R.id.optionButton);
-        ib.setTag(position);
+       // ImageButton ib=(ImageButton)songLay.findViewById(R.id.optionButton);
+       // ib.setTag(position);
         //set position as tag
         songLay.setTag(position);
         return songLay;

@@ -37,6 +37,7 @@ import com.blogreader.niranjansa.materialheadstart.R;
 import com.blogreader.niranjansa.materialheadstart.model.MusicService;
 import com.blogreader.niranjansa.materialheadstart.model.PlayList;
 import com.blogreader.niranjansa.materialheadstart.model.Song;
+import com.blogreader.niranjansa.materialheadstart.model.User;
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 
@@ -257,7 +258,7 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
 
             Firebase firebase=new Firebase(FirebaseConnection.getPath());
             String s=user.getEmail();
-            s= s.substring(0,s.indexOf("."));
+            s= s.substring(0,s.lastIndexOf("."));
             Firebase ref=firebase.child("/Userdata/"+s+"/songs");
             ref.setValue(songList);
             //ref.setValue();
@@ -437,16 +438,15 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
                  intent =new Intent(this, RegisterActivity.class);
                 startActivity(intent);
                 break;
-                /*fragment = new HomeFragment();
-                title = getString(R.string.title_home);
-                break;*/
+
             case 1: intent =new Intent(this, LoginActivity.class);
                 startActivity(intent);
                 break;
-            /*case 2:
-                fragment = new MessagesFragment();
-                title = getString(R.string.title_messages);
-                break;*/
+            case 2:intent =new Intent(this, SongSuggestion.class);
+                startActivity(intent);
+
+
+                break;
             default:
                 break;
         }
@@ -478,10 +478,6 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
 
         int a=0;
         a=Integer.parseInt(view.getTag().toString());
-        try{
-
-        }
-        catch (Exception e){};;
         TextView t= (TextView) view.findViewById(R.id.album_name);
         intent.putExtra("id",a);
         intent.putExtra("albumTitle", "" + t.getText());
@@ -596,7 +592,7 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
         //controller.show(0);
     }
     //added popupmenu to three dot button
-    public  void popOptionMenu(View view)
+   /* public  void popOptionMenu(View view)
     {
         final ImageButton ib=(ImageButton)view.findViewById(R.id.optionButton);
         PopupMenu popup=new PopupMenu(MainActivity.this,ib);
@@ -616,7 +612,7 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
         });
         popup.show();
 
-    }
+    }*/
 
     public void openUserInfoActivity(View view)
     {
