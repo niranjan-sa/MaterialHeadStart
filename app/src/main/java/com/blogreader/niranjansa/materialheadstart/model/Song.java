@@ -13,6 +13,8 @@ public class Song {
     private String artist;
     private long albumId;
     private String albumName;
+    private int counter;
+
 
 
 
@@ -36,7 +38,6 @@ public class Song {
     public long getID(){return id;}
     public String getTitle(){return title;}
     public String getArtist(){return artist;}
-
     public long getAlbumId() {
         return albumId;
     }
@@ -44,7 +45,30 @@ public class Song {
         return albumName;
     }
 
+    public int getCounter() {
+        return counter;
+    }
 
+    //setter methods
+    public void setArtist(String artist) {
+        this.artist = artist;
+    }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
+    public void setAlbumName(String albumName) {
+        this.albumName = albumName;
+    }
+
+    public void setCounter(int counter) {
+        this.counter = counter;
+    }
+
+    @Override
+    public String toString() {
+       String s=title+albumName+artist+counter;
+        return s;
+    }
 }

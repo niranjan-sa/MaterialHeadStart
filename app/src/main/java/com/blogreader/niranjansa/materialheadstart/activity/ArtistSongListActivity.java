@@ -154,8 +154,6 @@ public class ArtistSongListActivity extends AppCompatActivity {
         Toast.makeText(this, "Total songs queried :- " + songs + " Int - " + i + " Ext :- " + (songs - i), Toast.LENGTH_LONG).show();
 
 
-
-
     }
 
     public void songPicked(View view){

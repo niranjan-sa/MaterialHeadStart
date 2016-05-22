@@ -9,7 +9,6 @@
     tools:context="com.blogreader.niranjansa.materialheadstart.activity.ArtistSongListActivity"
     tools:showIn="@layout/activity_artist_song_list">
 
-
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

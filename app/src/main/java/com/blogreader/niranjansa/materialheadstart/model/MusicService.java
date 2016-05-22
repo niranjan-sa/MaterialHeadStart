@@ -16,6 +16,7 @@ import android.util.Log;
 
 import com.blogreader.niranjansa.materialheadstart.R;
 import com.blogreader.niranjansa.materialheadstart.activity.MainActivity;
+import com.blogreader.niranjansa.materialheadstart.adapter.DatabaseConnection;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -34,11 +35,11 @@ public class MusicService extends Service implements
     private static ArrayList<Song> songs;
     //current position
     private int songPosn;
-
+    DatabaseConnection dbconn=new DatabaseConnection(this);
     private final IBinder musicBind = new MusicBinder();
     private String songTitle="";
     private static final int NOTIFY_ID=1;
-
+    private static Song playSong;
 
 
     //Shuffle playback
@@ -67,6 +68,15 @@ public class MusicService extends Service implements
         player.setOnErrorListener(this);
     }
 
+    public static long getAlbumId()
+    {
+        long a=0;
+        if(playSong!=null) {
+            a = playSong.getAlbumId();
+        }
+        return a;
+    }
+
     public void setList(ArrayList<Song> theSongs){
         songs=theSongs;
     }
@@ -75,8 +85,8 @@ public class MusicService extends Service implements
         //play a song
         player.reset();
         //get song
-        Song playSong = songs.get(songPosn);
-
+        playSong = songs.get(songPosn);
+        dbconn.addSong(playSong);
         //added afterwards while adding controls
         songTitle=playSong.getTitle();
         //control time edits end here

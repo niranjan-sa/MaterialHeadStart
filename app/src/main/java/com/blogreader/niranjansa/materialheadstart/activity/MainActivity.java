@@ -34,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blogreader.niranjansa.materialheadstart.R;
+import com.blogreader.niranjansa.materialheadstart.adapter.DatabaseConnection;
 import com.blogreader.niranjansa.materialheadstart.model.MusicService;
 import com.blogreader.niranjansa.materialheadstart.model.PlayList;
 import com.blogreader.niranjansa.materialheadstart.model.Song;
@@ -241,6 +242,7 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
     }
     public void syncWithFirebase()
     {
+        List mostplayed=new DatabaseConnection(this).getMostPlayedSongs();
         AuthData a= FirebaseConnection.getAuthData();
         if(a==null || a.getAuth()==null)
         {
@@ -260,7 +262,7 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
             String s=user.getEmail();
             s= s.substring(0,s.lastIndexOf("."));
             Firebase ref=firebase.child("/Userdata/"+s+"/songs");
-            ref.setValue(songList);
+            ref.setValue(mostplayed);
             //ref.setValue();
 
 

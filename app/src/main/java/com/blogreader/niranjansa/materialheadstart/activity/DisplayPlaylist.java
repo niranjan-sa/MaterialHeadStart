@@ -1,14 +1,20 @@
 package com.blogreader.niranjansa.materialheadstart.activity;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blogreader.niranjansa.materialheadstart.R;
@@ -22,7 +28,7 @@ public class DisplayPlaylist extends AppCompatActivity {
 
     private ArrayList<Song> songsInPlaylist;
     private ListView songView;
-  /*  boolean playbackPaused = true;
+    boolean playbackPaused = true;
     private MusicService musicSrv;
     private Intent playIntent;
     private boolean musicBound = false;
@@ -48,7 +54,7 @@ public class DisplayPlaylist extends AppCompatActivity {
 
             Toast.makeText(DisplayPlaylist.this, "Probe",Toast.LENGTH_LONG).show();
         }
-    };*/
+    };
 
 
     @Override
@@ -131,7 +137,7 @@ public class DisplayPlaylist extends AppCompatActivity {
 
     }
 
-   /* public void songPicked(View view) {
+  /* public void songPicked(View view) {
         musicSrv.setList(songsInPlaylist);
         musicSrv.setSong(Integer.parseInt(view.getTag().toString()));
         musicSrv.playSong();
@@ -142,8 +148,20 @@ public class DisplayPlaylist extends AppCompatActivity {
 
         Intent intent = new Intent(this, SongPlayer.class);
         startActivity(intent);
+    }*/
+
+    public void songPicked(View view){
+        Toast.makeText(this,""+view.getTag().toString(),Toast.LENGTH_LONG).show();
+        musicSrv.setSongByName(((TextView) view.findViewById(R.id.song_title)).getText().toString());
+        musicSrv.playSong();
+        if(playbackPaused){
+            playbackPaused=false;
+        }
+            /*Starting new Activity*/
+        Intent intent=new Intent(this, SongPlayer.class);
+        startActivity(intent);
     }
-    /*
+
     protected void onStart() {
         super.onStart();
         if(playIntent==null){
@@ -151,8 +169,7 @@ public class DisplayPlaylist extends AppCompatActivity {
             bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
             startService(playIntent);
         }
-        }*/
-
+        }
 
 }
 

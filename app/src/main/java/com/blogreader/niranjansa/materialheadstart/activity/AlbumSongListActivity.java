@@ -161,6 +161,7 @@ public class AlbumSongListActivity extends AppCompatActivity {
     public void songPicked(View view){
         Toast.makeText(this,""+view.getTag().toString(),Toast.LENGTH_LONG).show();
         musicSrv.setSongByName(((TextView)view.findViewById(R.id.song_title)).getText().toString());
+        Toast.makeText(this, "" + ((TextView) view.findViewById(R.id.song_title)).getText().toString()+"",Toast.LENGTH_SHORT).show();
         musicSrv.playSong();
         if(playbackPaused){
             playbackPaused=false;

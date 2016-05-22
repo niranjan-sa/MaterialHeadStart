@@ -4,16 +4,26 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.preference.PreferenceScreen;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Display;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.blogreader.niranjansa.materialheadstart.R;
 import com.blogreader.niranjansa.materialheadstart.model.MusicService;
+
+import java.io.InputStream;
 
 public class SongPlayer extends AppCompatActivity {
 
@@ -28,6 +38,7 @@ public class SongPlayer extends AppCompatActivity {
     private boolean playing=true;
     private static ImageButton iplay, inext, iprev, info, like;
     private SeekBar sound;
+    private int width, height;
 
     //connect to the service
     private ServiceConnection musicConnection = new ServiceConnection(){
@@ -52,6 +63,7 @@ public class SongPlayer extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song_player);
+
        /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -66,7 +78,11 @@ public class SongPlayer extends AppCompatActivity {
         next=(Button)findViewById(R.id.nx);
         prev=(Button)findViewById(R.id.pre);*/
         /**/
-
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        width = size.x;
+        height = size.y;
     }
 
     @Override
@@ -109,6 +125,7 @@ public class SongPlayer extends AppCompatActivity {
         /*Init TextViews*/
         position.setText("");
         duration.setText("");
+        setArt();
 
         /*Initializing thread*/
 
@@ -238,14 +255,39 @@ public class SongPlayer extends AppCompatActivity {
             seekbarUpdater.interrupt();
         seekbarUpdater.start();*/
     }
+    void setArt()
+    {
+        RelativeLayout r=(RelativeLayout)findViewById(R.id.songplayerRel);
+
+        AlbumArt albumArt=new AlbumArt();
+         Drawable a= albumArt.getAlbumArt(MusicService.getAlbumId(),getContentResolver(),height,width);
+        if(a==null)
+        {
+            try {
+                InputStream ims = getAssets().open("defaultalbumart.jpg");
+                // load image as Drawable
+                a = Drawable.createFromStream(ims, null);
+            }
+            catch (Exception e)
+            {}
+        }
+
+            r.setBackground(a);
+
+
+    }
 
     public void playNext(View view) {
-        if(musicBound)
+        if(musicBound) {
             musicSrv.playNext();
+            setArt();
+        }
     }
     public void playPrevious(View view) {
-        if(musicBound)
+        if(musicBound) {
             musicSrv.playPrev();
+            setArt();
+        }
     }
     public void pause(View view) {
         if(musicBound)
