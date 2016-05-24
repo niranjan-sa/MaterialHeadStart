@@ -95,7 +95,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/progressBarLogin"
-        android:background="#d3262020"
+        android:background="#00262020"
         android:indeterminate="false"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />

@@ -25,9 +25,10 @@ public class DatabaseConnection extends SQLiteOpenHelper {
     private static final String KEY_ALBUM = "album";
     private static final String KEY_ARTIST = "artist";
     private static final String KEY_COUNTER = "counter";
+    private static final String KEY_LIKED = "liked";
 
 
-    private static final String[] COLUMNS = {KEY_TITLE,KEY_ALBUM,KEY_ARTIST,KEY_COUNTER};
+  //  private static final String[] COLUMNS = {KEY_TITLE,KEY_ALBUM,KEY_ARTIST,KEY_COUNTER};
     public DatabaseConnection(Context context) {
 
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -37,20 +38,21 @@ public class DatabaseConnection extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // SQL statement to create book table
-        String CREATE_TABLE = "CREATE TABLE MOSTPLAYEDSONG ( title TEXT PRIMARY KEY , album TEXT, artist TEXT, counter INTEGER )";
+
+
+    }
+    public  void init() {
+        Log.i("database", "Oncreate");
+        SQLiteDatabase db = this.getWritableDatabase();
+        String CREATE_TABLE = "CREATE TABLE MOSTPLAYEDSONG ( title TEXT PRIMARY KEY , album TEXT, artist TEXT, counter INTEGER, liked INTEGER )";
+       // String ALTER_TABLE = "ALTER TABLE MOSTPLAYEDSONG ADD COLUMN liked INTEGER";
 
         // create books table
-        try
-        {
+        try {
             db.execSQL(CREATE_TABLE);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
 
             Log.i("database", "failed" + e);
-        }
-        finally {
-            db.close();
         }
 
     }
@@ -68,6 +70,7 @@ public class DatabaseConnection extends SQLiteOpenHelper {
         values.put(KEY_ALBUM, song.getAlbumName()); // get album
         values.put(KEY_ARTIST, song.getArtist());
         values.put(KEY_COUNTER, 0);
+        values.put(KEY_LIKED,0);
         try
         {
             db.insert(TABLE_SONG, null, values);
@@ -88,7 +91,7 @@ public class DatabaseConnection extends SQLiteOpenHelper {
     // used to increament counter of song
     public void updateCounter(Song song)
     {
-        Log.i("database","updating");
+        Log.i("database", "updating");
         SQLiteDatabase db = this.getWritableDatabase();
         String s="UPDATE "+TABLE_SONG+" SET counter=counter+1 WHERE title='"+song.getTitle()+"'";
         try
@@ -100,6 +103,46 @@ public class DatabaseConnection extends SQLiteOpenHelper {
         {
             Log.i("database","Update failed"+e);
         }
+
+    }
+    public void setLiked(String title, int like)
+    {
+        Log.i("database","like"+like);
+        SQLiteDatabase db = this.getWritableDatabase();
+        String s="UPDATE "+TABLE_SONG+" SET liked= "+like+" WHERE title='"+title+"'";
+        try
+        {
+            db.execSQL(s);
+            db.close();
+
+        }
+        catch (Exception e)
+        {
+            Log.i("database","Update failed"+e);
+        }
+    }
+
+    public int getLiked(String title)
+    {
+        String query = "SELECT liked FROM " +TABLE_SONG+ " WHERE title= '"+title+"'";
+        int liked=0;
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            Cursor cursor = db.rawQuery(query, null);
+
+
+            if (cursor.moveToFirst()) {
+                do {
+                   liked= Integer.parseInt(cursor.getString(0));
+
+                } while (cursor.moveToNext());
+            }
+        }
+        catch (Exception e)
+        {
+            Log.i("database","Update failed"+e);
+        }
+        return liked;
 
     }
 

@@ -11,7 +11,8 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.niranjansa.playmusicbasic.SongPlayer"
     tools:showIn="@layout/activity_song_player"
-    android:id="@+id/songplayerRel">
+    android:id="@+id/songplayerRel"
+    android:padding="0dp">
 
     <SeekBar
         android:layout_width="fill_parent"
@@ -31,7 +32,7 @@
         android:layout_above="@+id/linearLayout"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="31dp" />
+        android:layout_marginBottom="5dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -48,85 +49,83 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/linearLayout"
+        android:background="#712b2828"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:background="@android:color/darker_gray">
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
 
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="83dp"
+            android:layout_height="match_parent"
             android:id="@+id/like_b"
-            android:src="@android:drawable/btn_star_big_on"
-            android:layout_row="0"
-            android:layout_column="0"
+            android:src="@drawable/like"
+            android:onClick="setLikedDB"
+            android:scaleType="fitCenter"
             android:adjustViewBounds="false"
-            android:layout_alignTop="@+id/prev_b"
-            android:layout_toLeftOf="@+id/prev_b"
-            android:layout_toStartOf="@+id/prev_b" />
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/prev_b"
-            android:src="@android:drawable/ic_media_previous"
-            android:onClick="playPrevious"
-            android:layout_row="0"
-            android:layout_column="3"
-            android:adjustViewBounds="false"
-            android:layout_below="@+id/play_b"
-            android:layout_toLeftOf="@+id/play_b"
-            android:layout_toStartOf="@+id/play_b" />
+            android:background="#00ffffff" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:id="@+id/prev_b"
+            android:src="@drawable/btn_previous"
+            android:onClick="playPrevious"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="false"
+             android:background="#00ffffff"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/play_b"
             android:onClick="play"
-            android:src="@android:drawable/ic_media_play"
-            android:layout_row="0"
-            android:layout_column="5"
-            android:layout_centerVertical="true"
-            android:layout_alignRight="@+id/ps"
-            android:layout_alignEnd="@+id/ps"
-            android:layout_weight="1"
-            android:background="@android:color/holo_blue_dark" />
+            android:src="@drawable/btn_play"
+             android:background="#00ffffff"
+            android:layout_weight="1" />
 
         <ImageButton
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/next_b"
             android:onClick="playNext"
-            android:src="@android:drawable/ic_media_next"
-            android:layout_row="0"
-            android:layout_column="6"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/info_b"
-            android:layout_toStartOf="@+id/info_b" />
+            android:src="@drawable/btn_next"
+            android:scaleType="fitCenter"
+             android:background="#00ffffff"
+
+            android:layout_weight="1" />
 
         <ImageButton
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:id="@+id/info_b"
-            android:src="@android:drawable/ic_dialog_info"
-            android:layout_row="0"
-            android:layout_column="7"
-            android:layout_below="@+id/next_b"
-            android:layout_alignRight="@+id/dur"
-            android:layout_alignEnd="@+id/dur" />
+            android:src="@drawable/btn_playlist"
+             android:background="#00ffffff"
+
+            android:layout_weight="2" />
     </LinearLayout>
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/sound"
-        android:onClick="setSound"
+        android:onClick="setVisible"
         android:layout_gravity="right"
         android:src="@android:drawable/ic_lock_silent_mode_off"
         android:background="@android:color/black"
         android:padding="5dp"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/seekBar"
-        android:layout_alignEnd="@+id/seekBar" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <SeekBar
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/seekBar2"
+        android:indeterminate="false"
+        android:layout_toRightOf="@+id/sound"
+        android:layout_toEndOf="@+id/sound"
+        android:layout_alignTop="@+id/sound"
+        android:layout_alignBottom="@+id/sound" />
 
 </RelativeLayout>

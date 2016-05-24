@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blogreader.niranjansa.materialheadstart.R;
 import com.blogreader.niranjansa.materialheadstart.model.User;
@@ -82,7 +83,7 @@ public class RegisterActivity extends AppCompatActivity {
         ref.createUser(email, password, new Firebase.ValueResultHandler<Map<String, Object>>() {
             @Override
             public void onSuccess(Map<String, Object> result) {
-                errorInput.setText("Successfully registered with email id "+email);
+                errorInput.setText("Successfully registered with email id " + email);
                 User user=new User(username,mobile,email,password);
                 FirebaseConnection.setUser(user);
                 String s=email;
@@ -90,7 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
                 Firebase firebase=new Firebase(FirebaseConnection.getPath()+"/Users");
                 firebase=firebase.child(s);
                 firebase.setValue(user);
-
+                Toast.makeText(RegisterActivity.this,""+user.getUsername() +", You have successfully registered.",Toast.LENGTH_LONG).show();
                 onBackPressed();
                 //System.out.println("Successfully created user account with uid: " + result.get("uid"));
             }

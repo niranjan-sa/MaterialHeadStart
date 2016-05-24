@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -36,10 +37,12 @@ public class MusicService extends Service implements
     //current position
     private int songPosn;
     DatabaseConnection dbconn=new DatabaseConnection(this);
+
     private final IBinder musicBind = new MusicBinder();
     private String songTitle="";
     private static final int NOTIFY_ID=1;
     private static Song playSong;
+    private static AudioManager audioManager = null;
 
 
     //Shuffle playback
@@ -55,6 +58,8 @@ public class MusicService extends Service implements
         player = new MediaPlayer();
         initMusicPlayer();
         rand=new Random();
+        dbconn.init();
+        initAudioManager(); //For volume control
     }
 
     public void initMusicPlayer(){
@@ -68,6 +73,14 @@ public class MusicService extends Service implements
         player.setOnErrorListener(this);
     }
 
+    public static String getSongTitle()
+    {
+        String a="";
+        if(playSong!=null) {
+            a = playSong.getTitle();
+        }
+        return a;
+    }
     public static long getAlbumId()
     {
         long a=0;
@@ -269,5 +282,20 @@ public class MusicService extends Service implements
     public static boolean isPlayingOn(){
         return player.isPlaying();
     }
-
+    /*
+    *
+    * Added services for volumeseekbar
+    * */
+    public void initAudioManager(){
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+    }
+    public static int getMaxVol(){
+        return audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+    }
+    public static void setVolume(int prog){
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,prog,0);
+    }
+    public static int getCurrentVol(){
+        return audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+    }
 }
