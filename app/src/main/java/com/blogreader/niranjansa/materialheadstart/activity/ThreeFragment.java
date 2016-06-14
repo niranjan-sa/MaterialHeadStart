@@ -1,3 +1,4 @@
+//display all artist
 package com.blogreader.niranjansa.materialheadstart.activity;
 
 /**

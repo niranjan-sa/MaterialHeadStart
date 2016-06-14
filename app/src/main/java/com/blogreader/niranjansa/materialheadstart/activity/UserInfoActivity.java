@@ -1,3 +1,5 @@
+//User information from firebase
+
 package com.blogreader.niranjansa.materialheadstart.activity;
 
 import android.support.v7.app.AppCompatActivity;

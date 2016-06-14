@@ -23,6 +23,7 @@ import android.util.Log;
 public class AlbumArt extends Service {
     public AlbumArt()
     {}
+    // get albumart without scaling.
     public  Bitmap getAlbumArt(long albumId, Context c)
     {
         final Uri ART_CONTENT_URI = Uri.parse("content://media/external/audio/albumart");
@@ -42,7 +43,9 @@ public class AlbumArt extends Service {
 
         return bitmap;
 
-    }public  Drawable getAlbumArt(long albumId, ContentResolver c, final int height, final int width)
+    }
+    // get albumart without scaling with required scaling with return type as Drawable.
+    public  Drawable getAlbumArt(long albumId, ContentResolver c, final int height, final int width)
     {
         final Uri ART_CONTENT_URI = Uri.parse("content://media/external/audio/albumart");
         Uri albumArtUri = ContentUris.withAppendedId(ART_CONTENT_URI, albumId);
@@ -92,6 +95,8 @@ public class AlbumArt extends Service {
         }
         return a;
     }
+
+    //cropping image to make it square
     public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
         int width = image.getWidth();
         int height = image.getHeight();

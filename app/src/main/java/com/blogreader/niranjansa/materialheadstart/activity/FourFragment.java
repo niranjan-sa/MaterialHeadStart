@@ -50,11 +50,11 @@ public class FourFragment extends Fragment{
         return view;
     }
 
+    //get list of all albums and add to array
     public void getAlbumList() {
         ContentResolver musicResolver = getActivity().getContentResolver();
         Uri uri = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
         Cursor cursor = musicResolver.query(uri, null,null,null,null);
-        String[] project = { MediaStore.Audio.Albums._ID, MediaStore.Audio.Albums.ALBUM,MediaStore.Audio.Albums.NUMBER_OF_SONGS};
         if (cursor != null) {
             if(cursor.getCount()>0) {
                 cursor.moveToFirst();
@@ -66,7 +66,6 @@ public class FourFragment extends Fragment{
                     albumList.add(new Album(cursor.getLong(idColumn), cursor.getString(nameColumn),cursor.getInt(countColumn)));
                 }while (cursor.moveToNext());
 
-                Toast.makeText(getActivity(), "" + albumList.size() + " playlists found", Toast.LENGTH_LONG).show();
             }
         }
 

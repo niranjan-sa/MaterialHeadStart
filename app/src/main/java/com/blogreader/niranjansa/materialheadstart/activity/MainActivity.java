@@ -57,9 +57,6 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private static ArrayList<Song> songList;
-
-        //my comment nobody will delete it
-    //imported
     private ArrayList<PlayList> playLists;
     private ListView songView;
 
@@ -101,7 +98,7 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
 
         /*
         * Get Permissions for MM SD card read
-        * Issue with marsh mellow
+        * to solve Issue with marsh mellow
         * */
 
         // Assume thisActivity is the current activity
@@ -127,13 +124,7 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
             }
         });
 
-
-
-        //UI Setup code
-
-        //Toolbar Setup
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-
         //Changed the title
         setTitle("Music Player");
 
@@ -164,17 +155,8 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
         AuthData authData=firebase.getAuth();
         FirebaseConnection.setAuthData(authData);
 
-        // display the first navigation drawer view on app launch
-        //displayView(1);
-
-        /*
-            UI setup code ends here
-        * Music - player related code starts from here
-        * */
-        //Here I go
-       // songView = (ListView)findViewById(R.id.song_list);
-        //only queryinq
     }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -288,7 +270,7 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
 
         boolean isSdPresent=android.os.Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
 
-        //Common variables
+
         ContentResolver musicResolver;
         Uri musicUri;
         Cursor musicCursor;
@@ -327,7 +309,7 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
                     String album=musicCursor.getString(albumColumn);
                     long albumId=musicCursor.getLong(albumIdColumn);
                     songList.add(new Song(thisId, thisTitle, thisArtist,albumId,album));
-                    songs++;
+
                 }
                 while (musicCursor.moveToNext());
             }
@@ -339,10 +321,10 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
         musicUri=MediaStore.Audio.Media.INTERNAL_CONTENT_URI;
         musicCursor = musicResolver.query(musicUri, null, null, null, null);
         int i=0;
-        final String THU="hermit";
+
         if(musicCursor!=null && musicCursor.moveToFirst()){
             //get columns
-            Log.i(THU, "I came here");
+
             int titleColumn = musicCursor.getColumnIndex
                     (android.provider.MediaStore.Audio.Media.TITLE);
             int idColumn = musicCursor.getColumnIndex
@@ -381,11 +363,15 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
             while (musicCursor.moveToNext());
         }
 
-        Toast.makeText(this, "Total songs queried :- " + songs + " Int - " + i + " Ext :- " + (songs - i), Toast.LENGTH_LONG).show();
-        /*
+
         if(i==0) {
             Toast.makeText(this, "No songs present on the inp device :- ",Toast.LENGTH_LONG).show();
-        }*/
+        }
+        else
+        {
+            Toast.makeText(this, "Total songs queried :- " + songs + " Internal - " + i + " External :- " + (songs - i), Toast.LENGTH_LONG).show();
+
+        }
     }
 
 
@@ -464,6 +450,7 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
         }*/
     }
 
+    //onclick method invoke when clicked on song name from fragment 1
     public void songPicked(View view){
             musicSrv.setSong(Integer.parseInt(view.getTag().toString()));
             musicSrv.playSong();
@@ -475,6 +462,8 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
             Intent intent=new Intent(this, SongPlayer.class);
             startActivity(intent);
     }
+
+    //onclick method invoke when clicked on album name from fragment 2
     public void albumPicked(View view){
         Intent intent= new Intent(this, AlbumSongListActivity.class);
 
@@ -486,6 +475,9 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
 
         startActivity(intent);
     }
+
+
+    //onclick method invoke when clicked on artist name from fragment 3
     public void artistPicked(View view){
         Intent intent=new Intent(this, ArtistSongListActivity.class);
         TextView t = (TextView) view.findViewById(R.id.artist_name);
@@ -500,6 +492,9 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
         intent.putExtra("artistTitle", "" + t.getText());
         startActivity(intent);
     }
+
+
+    //onclick method invoke when clicked on playlist name from fragment 4
     public void displayPlaylist(View view){
         Intent intent=new Intent(this, DisplayPlaylist.class);
         int a=0;
@@ -574,6 +569,7 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
     }
 
     /*Service triggering methods*/
+    
     //play next
     private void playNext(){
         musicSrv.playNext();

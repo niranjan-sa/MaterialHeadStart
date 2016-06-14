@@ -1,3 +1,8 @@
+/**
+Separate activity to display songs from choosen album.
+
+ */
+
 package com.blogreader.niranjansa.materialheadstart.activity;
 
 import android.content.ComponentName;
@@ -81,7 +86,8 @@ public class AlbumSongListActivity extends AppCompatActivity {
             startService(playIntent);
         }
     }
-   
+    /*
+    * fetch all songs using albumid*/
     public void getAlbumSongs(int albumId)
     {
         String selection = "is_music != 0";
@@ -99,8 +105,6 @@ public class AlbumSongListActivity extends AppCompatActivity {
 
         };
 
-       // final String sortOrder = MediaStore.Audio.AudioColumns.TITLE + " COLLATE LOCALIZED ASC";
-        int songs=0,i=0;
         Cursor musicCursor = null;
         try {
             Uri uri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
@@ -115,14 +119,6 @@ public class AlbumSongListActivity extends AppCompatActivity {
                         (MediaStore.Audio.Media.ARTIST);
                 int albumColumn = musicCursor.getColumnIndex
                         (MediaStore.Audio.Media.ALBUM);
-
-
-
-
-                //retriving the flags to avoid showing the ring tones and other system files
-
-
-                //add songs to list from the internal memory
                 do {
 
                     long thisId = musicCursor.getLong(idColumn);
@@ -130,19 +126,10 @@ public class AlbumSongListActivity extends AppCompatActivity {
                     String thisTitle = musicCursor.getString(titleColumn);
                     String thisArtist = musicCursor.getString(artistColumn);
                     String album=musicCursor.getString(albumColumn);
-
-
                     albumSongList.add(new Song(thisId, thisTitle, thisArtist,albumId,album));
-                    songs++;
-                    i++;
-
-
                 }
                 while (musicCursor.moveToNext());
             }
-
-            Toast.makeText(this, "Total songs queried :- " + songs + " Int - " + i + " Ext :- " + (songs - i), Toast.LENGTH_LONG).show();
-
 
         } catch (Exception e) {
             Log.e("Media", e.toString());
@@ -151,13 +138,10 @@ public class AlbumSongListActivity extends AppCompatActivity {
                 musicCursor.close();
             }
         }
-        Toast.makeText(this, "Total songs queried :- " + songs + " Int - " + i + " Ext :- " + (songs - i), Toast.LENGTH_LONG).show();
-
-
-
-
     }
 
+    /*
+     * onclick method to play selected song*/
     public void songPicked(View view){
         Toast.makeText(this,""+view.getTag().toString(),Toast.LENGTH_LONG).show();
         musicSrv.setSongByName(((TextView)view.findViewById(R.id.song_title)).getText().toString());

@@ -1,3 +1,9 @@
+/**
+ Separate activity to display songs of choosen artist.
+
+ */
+
+
 package com.blogreader.niranjansa.materialheadstart.activity;
 
 import android.content.ComponentName;
@@ -82,6 +88,8 @@ public class ArtistSongListActivity extends AppCompatActivity {
     }
 
 
+    /*
+    * fetch all songs using artistid*/
     public void getArtistSongs(int artistId)
     {
         String selection = "is_music != 0";
@@ -99,8 +107,6 @@ public class ArtistSongListActivity extends AppCompatActivity {
                 MediaStore.Audio.Media.ALBUM
 
         };
-        // final String sortOrder = MediaStore.Audio.AudioColumns.TITLE + " COLLATE LOCALIZED ASC";
-        int songs=0,i=0;
         Cursor musicCursor = null;
         try {
             Uri uri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
@@ -118,11 +124,6 @@ public class ArtistSongListActivity extends AppCompatActivity {
                 int albumIdColumn = musicCursor.getColumnIndex
                         (MediaStore.Audio.Media.ALBUM_ID);
 
-
-                //retriving the flags to avoid showing the ring tones and other system files
-
-
-                //add songs to list from the internal memory
                 do {
 
                     long thisId = musicCursor.getLong(idColumn);
@@ -133,15 +134,9 @@ public class ArtistSongListActivity extends AppCompatActivity {
                     long albumId=musicCursor.getLong(albumIdColumn);
 
                     artistSongList.add(new Song(thisId, thisTitle, thisArtist,albumId,album));
-                    songs++;
-                    i++;
-
-
                 }
                 while (musicCursor.moveToNext());
             }
-
-            Toast.makeText(this, "Total songs queried :- " + songs + " Int - " + i + " Ext :- " + (songs - i), Toast.LENGTH_LONG).show();
 
 
         } catch (Exception e) {
@@ -151,11 +146,12 @@ public class ArtistSongListActivity extends AppCompatActivity {
                 musicCursor.close();
             }
         }
-        Toast.makeText(this, "Total songs queried :- " + songs + " Int - " + i + " Ext :- " + (songs - i), Toast.LENGTH_LONG).show();
 
 
     }
 
+    /*
+    * onclick method to play selected song*/
     public void songPicked(View view){
         Toast.makeText(this,""+view.getTag().toString(),Toast.LENGTH_LONG).show();
         musicSrv.setSongByName(((TextView)view.findViewById(R.id.song_title)).getText().toString());

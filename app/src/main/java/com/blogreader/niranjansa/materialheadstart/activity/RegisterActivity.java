@@ -1,3 +1,7 @@
+/**
+ * register activity for registration of new user on firebase
+ */
+
 package com.blogreader.niranjansa.materialheadstart.activity;
 
 import android.os.Bundle;

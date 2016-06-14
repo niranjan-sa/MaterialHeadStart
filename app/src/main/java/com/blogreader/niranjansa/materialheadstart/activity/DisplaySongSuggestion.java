@@ -1,3 +1,6 @@
+/*
+* display song suggestion recieved from firebase database*/
+
 package com.blogreader.niranjansa.materialheadstart.activity;
 
 import android.content.Intent;
@@ -23,7 +26,6 @@ import java.util.ArrayList;
 
 public class DisplaySongSuggestion extends AppCompatActivity {
 
-    ArrayList<Song> songList=null;
     String email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +35,6 @@ public class DisplaySongSuggestion extends AppCompatActivity {
         setSupportActionBar(toolbar);
          email=getIntent().getStringExtra("email");
         Log.i("extra", email);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         String s=email.substring(0,email.lastIndexOf("."));
         ListView listView=(ListView)findViewById(R.id.listViewDSS);
@@ -44,8 +45,6 @@ public class DisplaySongSuggestion extends AppCompatActivity {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-
-             // songList= snapshot.getValue(ArrayList.class);
                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                   Song song=postSnapshot.getValue(Song.class);
                adapter.add(song.getTitle() + "\nAlbum:" + song.getAlbumName()+"\n Artist:"+song.getArtist());

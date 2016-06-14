@@ -1,3 +1,6 @@
+/*
+  Class to implement all firebase related operation*/
+
 package com.blogreader.niranjansa.materialheadstart.activity;
 
 import android.util.Log;
@@ -47,7 +50,7 @@ public class FirebaseConnection {
     }
 
 
-
+//Login to firebase and save the credentials
     public static void loginToFirebase(final String emailID, final String passwd)
     {
 
@@ -102,15 +105,7 @@ public class FirebaseConnection {
             public void onDataChange(DataSnapshot snapshot) {
                 User user1=snapshot.getValue(User.class);
                 user=user1;
-                /*for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-                    User user1 = postSnapshot.getValue(User.class);
-                   if(user1.getEmail().equals(email))
-                   {
-                       user=user1;
-                       Log.i("user",""+user.getEmail());
-                       return;
-                   }
-                }*/
+
             }
             @Override
             public void onCancelled(FirebaseError firebaseError) {

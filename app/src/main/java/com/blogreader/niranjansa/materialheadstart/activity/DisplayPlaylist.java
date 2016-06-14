@@ -137,18 +137,6 @@ public class DisplayPlaylist extends AppCompatActivity {
 
     }
 
-  /* public void songPicked(View view) {
-        musicSrv.setList(songsInPlaylist);
-        musicSrv.setSong(Integer.parseInt(view.getTag().toString()));
-        musicSrv.playSong();
-        if (playbackPaused) {
-
-            playbackPaused = false;
-        }
-
-        Intent intent = new Intent(this, SongPlayer.class);
-        startActivity(intent);
-    }*/
 
     public void songPicked(View view){
         Toast.makeText(this,""+view.getTag().toString(),Toast.LENGTH_LONG).show();

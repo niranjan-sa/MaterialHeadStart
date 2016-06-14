@@ -1,3 +1,6 @@
+/*
+* login activity for user login*/
+
 package com.blogreader.niranjansa.materialheadstart.activity;
 
 import android.app.Activity;
@@ -37,16 +40,11 @@ public class LoginActivity extends AppCompatActivity {
         path=getResources().getString(R.string.firebaselink);
         Log.i("d", path);
 
-        final TextView errorInput=(TextView)findViewById(R.id.messagelogin);
-     //   if(FirebaseConnection.getAuthData()!=null &&FirebaseConnection.getAuthData().getAuth()!=null &&ref!=null);
-      //  {
-     //       //errorInput.setText("You are already logined" + FirebaseConnection.getAuthData().getAuth().getUid());
-     //   }
-       // Firebase.setAndroidContext(this);
+
 
     }
 
-
+// onclick method to  authenticate user
     public void authenticateUser(final View view) {
         EditText emailInput =(EditText)findViewById(R.id.emailLog);
         EditText passwordInput=(EditText)findViewById(R.id.passwordLog);
